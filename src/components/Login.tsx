@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Form, Checkbox, Button } from "semantic-ui-react";
 
 type LoginProps = {
-    handleSubmit: (email: string, password: string) => void;
+    handleSubmit: (email: string, password: string, remember: boolean) => void;
 };
 
 const Login = ({ handleSubmit }: LoginProps) => {
@@ -11,7 +11,7 @@ const Login = ({ handleSubmit }: LoginProps) => {
     const [password, setPassword] = useState("");
 
     return (
-        <Form onSubmit={() => handleSubmit(email, password)}>
+        <Form onSubmit={() => handleSubmit(email, password, remember)}>
             <Form.Input
                 placeholder="Email"
                 value={email}

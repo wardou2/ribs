@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import Cookies from "js-cookie";
 
 import { getToken } from "./api/Auth";
 
@@ -10,9 +11,23 @@ import PatientRecords from "./components/PatientRecords";
 function App() {
     const [token, setToken] = useState<string>();
 
-    const handleGetToken = (username: string, password: string) => {
-        getToken(username, password).then((json) => {
-            console.log(json);
+    useEffect(() => {
+        const cookieToken = Cookies.get("token");
+        if (cookieToken) {
+            setToken(cookieToken);
+        }
+    }, []);
+
+    const handleGetToken = (
+        username: string,
+        password: string,
+        remember: boolean
+    ) => {
+        getToken(username, password).then((res) => {
+            if (res.access_token) {
+                remember && Cookies.set("token", res.access_token);
+                setToken(res.access_token);
+            }
         });
     };
 
