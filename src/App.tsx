@@ -23,12 +23,14 @@ function App() {
         password: string,
         remember: boolean
     ) => {
-        getToken(username, password).then((res) => {
-            if (res.access_token) {
-                remember && Cookies.set("token", res.access_token);
-                setToken(res.access_token);
-            }
-        });
+        getToken(username, password)
+            .then((res) => {
+                if (res.access_token) {
+                    remember && Cookies.set("token", res.access_token);
+                    setToken(res.access_token);
+                }
+            })
+            .catch((err) => console.log(err));
     };
 
     if (!token) {

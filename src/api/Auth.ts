@@ -1,4 +1,4 @@
-const BASE_URL = "https://demo3.ribs.vthera.com";
+import { BASE_URL } from "./constants";
 
 export const getToken = async (username: string, password: string) => {
     const response = await fetch(`${BASE_URL}/Token`, {
@@ -10,7 +10,6 @@ export const getToken = async (username: string, password: string) => {
     });
 
     if (!response.ok) {
-        const json = await response.json();
         throw new Error(`HTTP Error! status: ${response.status}`);
     } else {
         return response.json();
