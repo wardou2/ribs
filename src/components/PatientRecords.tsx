@@ -7,10 +7,12 @@ import PatientTable from "./PatientTable";
 const PatientRecords = () => {
     const [patients, setPatients] = useState<Patient[]>([]);
     useEffect(() => {
-        getPatients().then((payload) => {
-            setPatients(payload);
-        });
-    });
+        getPatients()
+            .then((payload) => {
+                setPatients(payload);
+            })
+            .catch(console.error);
+    }, []);
 
     return (
         <div>

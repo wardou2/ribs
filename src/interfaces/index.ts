@@ -19,3 +19,26 @@ export interface Patient {
     clinical_ref: string;
     patientgroups: string;
 }
+
+export type AuthLevel = "Administrator" | "Clinician" | "";
+
+export interface Role {
+    id: number;
+    name: AuthLevel;
+    created_datetime: number;
+    permissions?: string[];
+    description?: string | null;
+    created_by_user_id?: number;
+}
+
+export interface User {
+    id: number;
+    firstname: string;
+    lastname: string;
+    created_datetime: number;
+    created_by_user_id: number;
+    email: string;
+    password: string;
+    roles: Role[];
+    permissions: string[];
+}
