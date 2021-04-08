@@ -1,4 +1,5 @@
 import React from "react";
+import { useRouteMatch, Link } from "react-router-dom";
 import { Table } from "semantic-ui-react";
 
 import { Patient } from "../interfaces";
@@ -26,12 +27,16 @@ const PatientTable = ({ patients }: PatientTableProps) => {
                 <Table.Cell>{`${patient.firstname} ${patient.lastname} `}</Table.Cell>
                 <Table.Cell>{calculateAge(patient.birthdate)}</Table.Cell>
                 <Table.Cell>{patient.email_address}</Table.Cell>
-                <Table.Cell>View</Table.Cell>
+                <Table.Cell>
+                    <Link to={`${url}/${patient.id}`}> View </Link>
+                </Table.Cell>
                 <Table.Cell>Edit</Table.Cell>
                 <Table.Cell>Delete</Table.Cell>
             </Table.Row>
         ));
     };
+
+    let { url } = useRouteMatch();
 
     return (
         <div>

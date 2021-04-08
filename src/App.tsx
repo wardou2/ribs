@@ -10,6 +10,7 @@ import PatientRecords from "./components/PatientRecords";
 import { User, AuthLevel } from "./interfaces";
 import Navbar from "./components/Navbar";
 import Landing from "./components/Landing";
+import ViewPatient from "./components/ViewPatient";
 
 function App() {
     const [token, setToken] = useState<string>();
@@ -70,10 +71,13 @@ function App() {
             <BrowserRouter>
                 <Navbar />
                 <Switch>
+                    <Route path={`/records/:patientId`}>
+                        <ViewPatient />
+                    </Route>
                     <Route path="/records">
                         <PatientRecords />
                     </Route>
-                    <Route path="/">
+                    <Route exact path="/">
                         <Landing authLevel={authLevel} />
                     </Route>
                 </Switch>
