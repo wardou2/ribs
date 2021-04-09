@@ -11,6 +11,7 @@ import { User, AuthLevel } from "./interfaces";
 import Navbar from "./components/Navbar";
 import Landing from "./components/Landing";
 import ViewPatient from "./components/ViewPatient";
+import EditPatient from "./components/EditPatient";
 
 function App() {
     const [token, setToken] = useState<string>();
@@ -67,12 +68,15 @@ function App() {
     }
 
     return (
-        <div>
+        <div className="app-container">
             <BrowserRouter>
-                <Navbar />
+                <Navbar user={user} authLevel={authLevel} />
                 <Switch>
-                    <Route path={`/records/:patientId`}>
+                    <Route exact path={`/records/:patientId`}>
                         <ViewPatient />
+                    </Route>
+                    <Route exact path={`/records/edit/:patientId`}>
+                        <EditPatient />
                     </Route>
                     <Route path="/records">
                         <PatientRecords />
