@@ -1,14 +1,22 @@
 import React, { useState } from "react";
 import { Form, Checkbox, Button } from "semantic-ui-react";
 
-type LoginProps = {
-    handleSubmit: (email: string, password: string, remember: boolean) => void;
-};
+interface LoginProps {
+    handleSignIn: (email: string, password: string, remember: boolean) => void;
+}
 
-const Login = ({ handleSubmit }: LoginProps) => {
+const Login = ({ handleSignIn }: LoginProps) => {
     const [remember, setRemember] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    const handleSubmit = (
+        email: string,
+        password: string,
+        remember: boolean
+    ) => {
+        handleSignIn(email, password, remember);
+    };
 
     return (
         <Form onSubmit={() => handleSubmit(email, password, remember)}>
@@ -30,7 +38,7 @@ const Login = ({ handleSubmit }: LoginProps) => {
                     onClick={() => setRemember(!remember)}
                 />
             </Form.Field>
-            <Button type="submit" />
+            <Button type="submit">Sign in</Button>
         </Form>
     );
 };

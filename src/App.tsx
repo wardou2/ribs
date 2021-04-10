@@ -1,32 +1,36 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import Cookies from "js-cookie";
-
-import { getCurrentUser, getToken } from "./api/Auth";
 
 import Login from "./components/Login";
 import PatientRecords from "./components/PatientRecords";
+import useToken from "./util/useToken";
 import { User, AuthLevel } from "./interfaces";
 import Navbar from "./components/Navbar";
 import Landing from "./components/Landing";
 import ViewPatient from "./components/ViewPatient";
 import EditPatient from "./components/EditPatient";
 
+import { getToken, getCurrentUser } from "./api/Auth";
+
 function App() {
-    const [token, setToken] = useState<string>();
     const [user, setUser] = useState<User | undefined>();
     const [authLevel, setAuthLevel] = useState<AuthLevel>("");
 
-    // Check for cookie token on first render
+    const { token, setToken, clearToken } = useToken();
+
+    /** Get current uesr  */
     useEffect(() => {
-        const cookieToken = Cookies.get("token");
-
-        if (cookieToken) {
-            getCurrentUser().then((user) => setUser(user));
-
-            setToken(cookieToken);
-        }
+        const fetchUser = async () => {
+            try {
+                const user = await getCurrentUser();
+                setUser(user);
+            } catch (e) {
+                // TODO: Better error handling
+                // alert(e);
+            }
+        };
+        fetchUser();
     }, []);
 
     // Set auth levels when user is updated
@@ -47,32 +51,41 @@ function App() {
         });
     }, [user, setAuthLevel]);
 
-    const handleGetToken = (
-        username: string,
+    const handleSignIn = async (
+        email: string,
         password: string,
         remember: boolean
     ) => {
-        getToken(username, password)
-            .then((res) => {
-                if (res.access_token) {
-                    remember && Cookies.set("token", res.access_token);
-                    setToken(res.access_token);
-                }
-            })
-            .then(() => getCurrentUser().then((user) => setUser(user)))
-            .catch((err) => console.log(err));
+        try {
+            const res = await getToken(email, password);
+            setToken(res.access_token);
+            const user = await getCurrentUser();
+            setUser(user);
+        } catch (e) {
+            //TODO: Better error handle
+            alert(e);
+        }
+    };
+
+    const handleSignOut = () => {
+        clearToken();
+        setUser(undefined);
     };
 
     if (!token) {
-        return <Login handleSubmit={handleGetToken} />;
+        return <Login handleSignIn={handleSignIn} />;
     }
 
     return (
         <div className="app-container">
             <BrowserRouter>
-                <Navbar user={user} authLevel={authLevel} />
+                <Navbar
+                    user={user}
+                    authLevel={authLevel}
+                    handleSignOut={handleSignOut}
+                />
                 <Switch>
-                    <Route exact path={`/records/:patientId`}>
+                    <Route path={`/records/:patientId`}>
                         <ViewPatient />
                     </Route>
                     <Route exact path={`/records/edit/:patientId`}>

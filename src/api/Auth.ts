@@ -2,13 +2,14 @@ import Cookies from "js-cookie";
 import { User } from "../interfaces";
 import { BASE_URL } from "./constants";
 
-export const getToken = async (username: string, password: string) => {
+export const getToken = async (email: string, password: string) => {
+    console.log(email, password);
     const response = await fetch(`${BASE_URL}/Token`, {
         method: "POST",
         headers: {
             "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: `grant_type=password&username=${username}&password=${password}`,
+        body: `grant_type=password&username=${email}&password=${password}`,
     });
 
     if (!response.ok) {

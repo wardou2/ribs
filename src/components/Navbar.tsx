@@ -4,9 +4,10 @@ import { User } from "../interfaces";
 interface NavbarProps {
     user?: User;
     authLevel: string;
+    handleSignOut: () => void;
 }
 
-const Navbar = ({ user, authLevel }: NavbarProps) => {
+const Navbar = ({ user, authLevel, handleSignOut }: NavbarProps) => {
     const getAuthLevelDisplay = () => {
         switch (authLevel) {
             case "Administrator":
@@ -30,6 +31,7 @@ const Navbar = ({ user, authLevel }: NavbarProps) => {
                 <div>
                     {user?.firstname} {user?.lastname}
                 </div>
+                <div onClick={handleSignOut}>Log Out</div>
             </div>
         </div>
     );

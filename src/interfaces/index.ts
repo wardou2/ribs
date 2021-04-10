@@ -2,7 +2,7 @@ export interface Patient {
     id: number;
     firstname: string;
     lastname: string;
-    sex_at_birth: ["m" | "f" | "o"];
+    sex_at_birth: string;
     birthdate: number;
     height: number;
     created_by_user_id: number;
@@ -41,4 +41,10 @@ export interface User {
     password: string;
     roles: Role[];
     permissions: string[];
+}
+
+export interface LocationState {
+    from: {
+        pathname: string;
+    };
 }
