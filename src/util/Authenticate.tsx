@@ -1,5 +1,5 @@
 import React, { useState, createContext, useContext, useEffect } from "react";
-import { Redirect, Route } from "react-router";
+import { Redirect, Route, RouteProps } from "react-router";
 
 import { getToken, getCurrentUser } from "../api/Auth";
 import { User, AuthLevel } from "../interfaces";
@@ -21,7 +21,7 @@ function useProvideAuth() {
     const { clearToken, setToken } = useToken();
     // Users are undefined when waiting for initial API response and false for logged out
     const [user, setUser] = useState<User | false | undefined>(undefined);
-    const [authLevel, setAuthLevel] = useState<AuthLevel>("");
+    const [authLevel, setAuthLevel] = useState<AuthLevel>(AuthLevel.None);
 
     const handleSignIn = async (
         email: string,
@@ -44,37 +44,41 @@ function useProvideAuth() {
 
     useEffect(() => {
         const token = localStorage.getItem("token");
-        if (!token) setUser(false);
+        if (!token) {
+            setUser(false);
+            return;
+        }
+
+        const initializeAuthLevel = (user: User) => {
+            setAuthLevel(() => {
+                if (!user) return AuthLevel.None;
+
+                let currHighestAuth = AuthLevel.None;
+                for (let i = 0; i < user.roles.length; i += 1) {
+                    const role = user.roles[i];
+                    if (role.name === "Administrator") {
+                        return AuthLevel.Administrator;
+                    } else if (role.name === "Clinician") {
+                        currHighestAuth = AuthLevel.Clinician;
+                    }
+                }
+                return currHighestAuth;
+            });
+        };
 
         const fetchUser = async () => {
             try {
                 const user = await getCurrentUser();
                 setUser(user);
+                initializeAuthLevel(user);
             } catch (e) {
                 // TODO: Better error handling
                 // alert(e);
             }
         };
+
         fetchUser();
-    }, [setUser]);
-
-    // Set auth levels when user is updated
-    useEffect(() => {
-        setAuthLevel(() => {
-            if (!user) return "";
-
-            let currHighestAuth = "";
-            for (let i = 0; i < user.roles.length; i += 1) {
-                const role = user.roles[i];
-                if (role.name === "Administrator") {
-                    return "Administrator";
-                } else if (role.name === "Clinician") {
-                    currHighestAuth = "Clinician";
-                }
-            }
-            return currHighestAuth as AuthLevel;
-        });
-    }, [user, setAuthLevel]);
+    }, []);
 
     return {
         user,
@@ -84,23 +88,44 @@ function useProvideAuth() {
     };
 }
 
-export function PrivateRoute({ children, ...rest }: any) {
-    let auth = useAuth();
+interface PrivateRouteProps extends RouteProps {
+    children: any;
+    requiredAuthLevel: AuthLevel;
+}
 
-    if (auth.user === undefined) return <div>...loading</div>;
+export function PrivateRoute({
+    children,
+    requiredAuthLevel,
+    ...rest
+}: PrivateRouteProps) {
+    let auth = useAuth();
 
     return (
         <Route
             {...rest}
-            render={({ location }) =>
-                auth.user ? (
-                    children
-                ) : (
-                    <Redirect
-                        to={{ pathname: "/login", state: { from: location } }}
-                    />
-                )
-            }
+            render={({ location }) => {
+                const { user, authLevel } = auth;
+                if (user === undefined) return <div>...loading</div>;
+                if (!user)
+                    return (
+                        <Redirect
+                            to={{
+                                pathname: "/login",
+                                state: { from: location },
+                            }}
+                        />
+                    );
+                if (requiredAuthLevel > authLevel)
+                    return (
+                        <Redirect
+                            to={{
+                                pathname: "/",
+                                state: { from: location },
+                            }}
+                        />
+                    );
+                return children;
+            }}
         />
     );
 }

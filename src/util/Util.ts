@@ -9,5 +9,3 @@ export const utcToAge = (birthdate: number) => {
     }
     return age;
 };
-
-export const ageToUtc = (age: number) => {};

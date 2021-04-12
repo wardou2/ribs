@@ -10,6 +10,7 @@ import ViewPatient from "./components/ViewPatient";
 import EditPatient from "./components/EditPatient";
 
 import { PrivateRoute, ProvideAuth } from "./util/Authenticate";
+import { AuthLevel } from "./interfaces";
 
 function App() {
     return (
@@ -18,16 +19,31 @@ function App() {
                 <BrowserRouter>
                     <Navbar />
                     <Switch>
-                        <PrivateRoute path={`/records/:patientId`}>
-                            <ViewPatient />
-                        </PrivateRoute>
-                        <PrivateRoute exact path={`/records/edit/:patientId`}>
+                        <PrivateRoute
+                            requiredAuthLevel={AuthLevel.Administrator}
+                            exact
+                            path={`/records/edit/:patientId`}
+                        >
                             <EditPatient />
                         </PrivateRoute>
-                        <PrivateRoute path="/records">
+                        <PrivateRoute
+                            requiredAuthLevel={AuthLevel.Clinician}
+                            path={`/records/:patientId`}
+                        >
+                            <ViewPatient />
+                        </PrivateRoute>
+
+                        <PrivateRoute
+                            requiredAuthLevel={AuthLevel.Clinician}
+                            path="/records"
+                        >
                             <PatientRecords />
                         </PrivateRoute>
-                        <PrivateRoute exact path="/">
+                        <PrivateRoute
+                            requiredAuthLevel={AuthLevel.None}
+                            exact
+                            path="/"
+                        >
                             <Landing />
                         </PrivateRoute>
                         <Route path="/login">

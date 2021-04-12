@@ -8,13 +8,13 @@ const Landing = () => {
     const { authLevel } = useAuth();
     return (
         <div>
-            {authLevel === "Administrator" || authLevel === "Clinician" ? (
-                <Link to="/records">Patient Records</Link>
-            ) : (
+            {authLevel === AuthLevel.None ? (
                 <div>
                     You do not have the necessary authorization to view any
                     records.
                 </div>
+            ) : (
+                <Link to="/records">Patient Records</Link>
             )}
         </div>
     );

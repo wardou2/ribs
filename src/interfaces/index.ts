@@ -20,11 +20,15 @@ export interface Patient {
     patientgroups: string;
 }
 
-export type AuthLevel = "Administrator" | "Clinician" | "";
+export enum AuthLevel {
+    None,
+    Clinician,
+    Administrator,
+}
 
 export interface Role {
     id: number;
-    name: AuthLevel;
+    name: string;
     created_datetime: number;
     permissions?: string[];
     description?: string | null;

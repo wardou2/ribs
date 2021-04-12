@@ -2,14 +2,17 @@ import React from "react";
 import { useRouteMatch, Link } from "react-router-dom";
 import { Table } from "semantic-ui-react";
 
-import { Patient } from "../interfaces";
+import { Patient, AuthLevel } from "../interfaces";
 import { utcToAge } from "../util/Util";
+import { useAuth } from "../util/Authenticate";
 
 type PatientTableProps = {
     patients: Patient[];
 };
 
 const PatientTable = ({ patients }: PatientTableProps) => {
+    const auth = useAuth();
+    const { authLevel } = auth;
     const renderTableRows = () => {
         return patients.map((patient, i) => (
             <Table.Row key={i}>
@@ -19,10 +22,15 @@ const PatientTable = ({ patients }: PatientTableProps) => {
                 <Table.Cell>
                     <Link to={`${url}/${patient.id}`}> View </Link>
                 </Table.Cell>
-                <Table.Cell>
-                    <Link to={`${url}/edit/${patient.id}`}> Edit </Link>
-                </Table.Cell>
-                <Table.Cell>Delete</Table.Cell>
+                {authLevel === AuthLevel.Administrator && (
+                    <>
+                        <Table.Cell>
+                            <Link to={`${url}/edit/${patient.id}`}> Edit </Link>
+                        </Table.Cell>
+
+                        <Table.Cell>Delete</Table.Cell>
+                    </>
+                )}
             </Table.Row>
         ));
     };
@@ -38,8 +46,12 @@ const PatientTable = ({ patients }: PatientTableProps) => {
                         <Table.HeaderCell>Age</Table.HeaderCell>
                         <Table.HeaderCell>Email</Table.HeaderCell>
                         <Table.HeaderCell>View</Table.HeaderCell>
-                        <Table.HeaderCell>Edit</Table.HeaderCell>
-                        <Table.HeaderCell>Delete</Table.HeaderCell>
+                        {authLevel === AuthLevel.Administrator && (
+                            <>
+                                <Table.HeaderCell>Edit</Table.HeaderCell>
+                                <Table.HeaderCell>Delete</Table.HeaderCell>
+                            </>
+                        )}
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>{renderTableRows()}</Table.Body>
