@@ -1,13 +1,22 @@
 import React from "react";
+import { withRouter, RouteComponentProps } from "react-router-dom";
+
+import { Button } from "semantic-ui-react";
 import { User } from "../interfaces";
 
 interface NavbarProps {
-    user?: User;
+    user: User | undefined;
     authLevel: string;
-    handleSignOut: () => void;
+    handleSignOut: (cb: () => any) => void;
+    history: any;
 }
 
-const Navbar = ({ user, authLevel, handleSignOut }: NavbarProps) => {
+const Navbar = ({
+    user,
+    authLevel,
+    handleSignOut,
+    history,
+}: NavbarProps & RouteComponentProps) => {
     const getAuthLevelDisplay = () => {
         switch (authLevel) {
             case "Administrator":
@@ -31,10 +40,16 @@ const Navbar = ({ user, authLevel, handleSignOut }: NavbarProps) => {
                 <div>
                     {user?.firstname} {user?.lastname}
                 </div>
-                <div onClick={handleSignOut}>Log Out</div>
+                <Button
+                    compact
+                    size="mini"
+                    onClick={() => handleSignOut(() => history.push("/"))}
+                >
+                    Log Out
+                </Button>
             </div>
         </div>
     );
 };
 
-export default Navbar;
+export default withRouter(Navbar);

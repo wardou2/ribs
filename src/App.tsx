@@ -19,8 +19,11 @@ function App() {
 
     const { token, setToken, clearToken } = useToken();
 
-    /** Get current uesr  */
+    /** Get current user  */
     useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (!token) return;
+
         const fetchUser = async () => {
             try {
                 const user = await getCurrentUser();
@@ -56,20 +59,16 @@ function App() {
         password: string,
         remember: boolean
     ) => {
-        try {
-            const res = await getToken(email, password);
-            setToken(res.access_token);
-            const user = await getCurrentUser();
-            setUser(user);
-        } catch (e) {
-            //TODO: Better error handle
-            alert(e);
-        }
+        const res = await getToken(email, password);
+        setToken(res.access_token);
+        const user = await getCurrentUser();
+        setUser(user);
     };
 
-    const handleSignOut = () => {
+    const handleSignOut = (cb: () => any) => {
         clearToken();
         setUser(undefined);
+        cb();
     };
 
     if (!token) {

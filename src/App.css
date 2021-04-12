@@ -2,6 +2,31 @@
     margin: 15px;
 }
 
+.login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login__logo {
+    height: 100px;
+    width: 100px;
+    border: 1px solid black;
+    border-radius: 50%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+
+    font-size: 3em;
+    margin: 1em;
+}
+
+.login__form {
+    width: 50%;
+}
+
 .navbar {
     display: flex;
     flex-direction: row;

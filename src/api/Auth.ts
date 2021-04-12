@@ -1,9 +1,7 @@
-import Cookies from "js-cookie";
 import { User } from "../interfaces";
 import { BASE_URL } from "./constants";
 
 export const getToken = async (email: string, password: string) => {
-    console.log(email, password);
     const response = await fetch(`${BASE_URL}/Token`, {
         method: "POST",
         headers: {
@@ -12,15 +10,16 @@ export const getToken = async (email: string, password: string) => {
         body: `grant_type=password&username=${email}&password=${password}`,
     });
 
+    const body = await response.json();
     if (!response.ok) {
-        throw new Error(`HTTP Error! status: ${response.status}`);
+        throw new Error(body.error_description);
     } else {
-        return response.json();
+        return body;
     }
 };
 
 export const getCurrentUser = async (): Promise<User> => {
-    const token = Cookies.get("token");
+    const token = localStorage.getItem("token");
     const response = await fetch(
         `${BASE_URL}//api/1.0/Security/User/ByCurrentUser`,
         {
@@ -31,9 +30,10 @@ export const getCurrentUser = async (): Promise<User> => {
         }
     );
 
+    const body = await response.json();
     if (!response.ok) {
-        throw new Error(`HTTP Error! status: ${response.status}`);
+        throw new Error(body.error_description);
     } else {
-        return response.json().then((json) => json.payload as User);
+        return body.payload as User;
     }
 };
