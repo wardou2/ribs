@@ -2,11 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { AuthLevel } from "../interfaces";
 
-interface LandingProps {
-    authLevel: AuthLevel;
-}
+import { useAuth } from "../util/Authenticate";
 
-const Landing = ({ authLevel }: LandingProps) => {
+const Landing = () => {
+    const { authLevel } = useAuth();
     return (
         <div>
             {authLevel === "Administrator" || authLevel === "Clinician" ? (

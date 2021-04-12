@@ -1,22 +1,16 @@
 import React from "react";
-import { withRouter, RouteComponentProps } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import { Button } from "semantic-ui-react";
-import { User } from "../interfaces";
 
-interface NavbarProps {
-    user: User | undefined;
-    authLevel: string;
-    handleSignOut: (cb: () => any) => void;
-    history: any;
-}
+import { useAuth } from "../util/Authenticate";
 
-const Navbar = ({
-    user,
-    authLevel,
-    handleSignOut,
-    history,
-}: NavbarProps & RouteComponentProps) => {
+const Navbar = () => {
+    const auth = useAuth();
+    const { user, handleSignOut, authLevel } = auth;
+
+    let history = useHistory();
+
     const getAuthLevelDisplay = () => {
         switch (authLevel) {
             case "Administrator":
@@ -32,24 +26,31 @@ const Navbar = ({
             <div className="navbar__title">
                 <div>KP MAISON</div>
             </div>
-            <div className="navbar__user">
-                <div className="navbar__user__level">
-                    {getAuthLevelDisplay()}
+            {user && (
+                <div className="navbar__user">
+                    <div className="navbar__user__level">
+                        {getAuthLevelDisplay()}
+                    </div>
+
+                    <div>Logged in as:</div>
+                    <div>
+                        {user?.firstname} {user?.lastname}
+                    </div>
+                    <Button
+                        compact
+                        size="mini"
+                        onClick={() =>
+                            handleSignOut(() => {
+                                history.push("/login");
+                            })
+                        }
+                    >
+                        Log Out
+                    </Button>
                 </div>
-                <div>Logged in as:</div>
-                <div>
-                    {user?.firstname} {user?.lastname}
-                </div>
-                <Button
-                    compact
-                    size="mini"
-                    onClick={() => handleSignOut(() => history.push("/"))}
-                >
-                    Log Out
-                </Button>
-            </div>
+            )}
         </div>
     );
 };
 
-export default withRouter(Navbar);
+export default Navbar;

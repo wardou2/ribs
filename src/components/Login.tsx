@@ -1,15 +1,23 @@
 import React, { useState } from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import { Form, Checkbox, Button, Message } from "semantic-ui-react";
 
-interface LoginProps {
-    handleSignIn: (email: string, password: string, remember: boolean) => void;
-}
+import { useAuth } from "../util/Authenticate";
+import { LocationState } from "../interfaces";
 
-const Login = ({ handleSignIn }: LoginProps) => {
+const Login = () => {
     const [remember, setRemember] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+
+    let history = useHistory();
+    let location = useLocation();
+    const auth = useAuth();
+
+    let { from } = (location.state as LocationState) || {
+        from: { pathname: "/" },
+    };
 
     const handleSubmit = async (
         email: string,
@@ -17,7 +25,9 @@ const Login = ({ handleSignIn }: LoginProps) => {
         remember: boolean
     ) => {
         try {
-            await handleSignIn(email, password, remember);
+            await auth.handleSignIn(email, password, remember, () => {
+                history.replace(from);
+            });
         } catch (e) {
             setError(e.message);
         }
