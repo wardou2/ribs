@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import { Redirect, useHistory, useLocation } from "react-router-dom";
 import { Form, Checkbox, Button, Message } from "semantic-ui-react";
 
 import { useAuth } from "../util/Authenticate";
@@ -36,6 +36,8 @@ const Login = () => {
     const isInvalid = () => {
         return email.length === 0 || password.length === 0;
     };
+
+    if (auth.user) return <Redirect to="/" />;
 
     return (
         <div className="login">
