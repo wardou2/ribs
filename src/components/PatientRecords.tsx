@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Pagination } from "semantic-ui-react";
+import { Pagination, Button } from "semantic-ui-react";
 
-import { Patient } from "../interfaces";
+import { AuthLevel, Patient } from "../interfaces";
 import { getPatients } from "../api/Patients";
 import PatientTable from "./PatientTable";
+import { useAuth } from "../util/Authenticate";
+import { useHistory } from "react-router-dom";
 
 const PatientRecords = () => {
     const [patients, setPatients] = useState<Patient[]>([]);
@@ -12,9 +14,14 @@ const PatientRecords = () => {
     const PATIENTS_PER_PAGE = 10;
     const numberOfPages = Math.ceil(patients.length / PATIENTS_PER_PAGE);
 
+    const auth = useAuth();
+    const { authLevel } = auth;
+
     const handlePageChange = (_e: any, data: any) => {
         setActivePage(data.activePage);
     };
+
+    const history = useHistory();
 
     useEffect(() => {
         getPatients()
@@ -38,6 +45,15 @@ const PatientRecords = () => {
                 activePage={activePage}
                 onPageChange={handlePageChange}
             />
+            {authLevel === AuthLevel.Administrator && (
+                <Button
+                    onClick={() => {
+                        history.push("/records/new");
+                    }}
+                >
+                    Add New Patient
+                </Button>
+            )}
         </div>
     );
 };

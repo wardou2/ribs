@@ -8,6 +8,7 @@ import Navbar from "./components/Navbar";
 import Landing from "./components/Landing";
 import ViewPatient from "./components/ViewPatient";
 import EditPatient from "./components/EditPatient";
+import NewPatient from "./components/NewPatient";
 
 import { PrivateRoute, ProvideAuth } from "./util/Authenticate";
 import { AuthLevel } from "./interfaces";
@@ -25,6 +26,12 @@ function App() {
                             path={`/records/edit/:patientId`}
                         >
                             <EditPatient />
+                        </PrivateRoute>
+                        <PrivateRoute
+                            requiredAuthLevel={AuthLevel.Administrator}
+                            path={`/records/new`}
+                        >
+                            <NewPatient />
                         </PrivateRoute>
                         <PrivateRoute
                             requiredAuthLevel={AuthLevel.Clinician}

@@ -1,5 +1,3 @@
-import { Patient } from "../interfaces";
-
 export const utcToAge = (birthdate: Date) => {
     //https://stackoverflow.com/questions/4060004/calculate-age-given-the-birth-date-in-the-format-yyyymmdd
     const today = new Date();

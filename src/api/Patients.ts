@@ -78,3 +78,22 @@ export const updatePatient = async (patient: Patient): Promise<any> => {
         throw new Error(body.error_description);
     }
 };
+
+export const newPatient = async (patient: Patient): Promise<any> => {
+    const token = localStorage.getItem("token");
+    const apiPatient = patientLocalToApi([patient])[0];
+
+    const response = await fetch(`${BASE_URL}/api/1.0/Patient/`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(apiPatient),
+    });
+
+    const body = await response.json();
+    if (!response.ok) {
+        throw new Error(body.error_description);
+    }
+};
