@@ -79,7 +79,7 @@ export const updatePatient = async (patient: Patient): Promise<any> => {
     }
 };
 
-export const newPatient = async (patient: Patient): Promise<any> => {
+export const newPatient = async (patient: Patient): Promise<number> => {
     const token = localStorage.getItem("token");
     const apiPatient = patientLocalToApi([patient])[0];
 
@@ -95,10 +95,13 @@ export const newPatient = async (patient: Patient): Promise<any> => {
     const body = await response.json();
     if (!response.ok) {
         throw new Error(body.error_description);
+    } else {
+        const id = body.payload["Insert_ID"];
+        return Number(id);
     }
 };
 
-export const deletePatient = async (patientId: number): Promise<any> => {
+export const deletePatient = async (patientId: number): Promise<void> => {
     const token = localStorage.getItem("token");
 
     const response = await fetch(`${BASE_URL}/api/1.0/Patient/${patientId}`, {

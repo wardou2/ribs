@@ -10,7 +10,7 @@ const DeletePatient = () => {
     const [patient, setPatient] = useState<Patient>();
 
     const [apiState, setApiState] = useState<
-        "sending" | "finished" | undefined
+        "sending" | "finished" | "error" | undefined
     >();
 
     const history = useHistory();
@@ -29,13 +29,13 @@ const DeletePatient = () => {
 
     const handleDelete = async () => {
         setApiState("sending");
-        try {
-            await deletePatient(Number(patientId));
-            setApiState("finished");
-        } catch (e) {
-            // TODO: Better error handling
-            alert(e);
-        }
+        deletePatient(Number(patientId))
+            .then(() => {
+                setApiState("finished");
+            })
+            .catch((e) => {
+                setApiState("error");
+            });
     };
 
     if (apiState === "sending")
@@ -55,6 +55,11 @@ const DeletePatient = () => {
             </div>
         );
     }
+
+    if (apiState === "error") {
+        return <div>Something went wrong...</div>;
+    }
+
     return (
         <div>
             {`Are you sure you want to delete ${patient?.firstname}

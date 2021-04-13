@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Button, Form, Loader } from "semantic-ui-react";
+import { useHistory } from "react-router-dom";
 import validator from "validator";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -34,6 +35,8 @@ const NewPatient = () => {
         });
         return err;
     });
+
+    const history = useHistory();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
@@ -114,9 +117,15 @@ const NewPatient = () => {
         { key: "o", text: "Other", value: "O" },
     ];
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (isValid) {
-            newPatient(patient);
+            try {
+                const id = await newPatient(patient);
+                history.push(`/records/${id}`);
+            } catch (e) {
+                // TODO: Better error handle
+                alert(e);
+            }
         }
     };
 
