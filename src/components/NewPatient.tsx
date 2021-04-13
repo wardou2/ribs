@@ -101,7 +101,7 @@ const NewPatient = () => {
         }
     };
 
-    const isValid =
+    const isValid: boolean =
         errors &&
         Object.keys(errors).length === 0 &&
         errors.constructor === Object;

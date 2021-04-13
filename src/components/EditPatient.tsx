@@ -5,12 +5,8 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import { useParams } from "react-router-dom";
 
-import { Patient } from "../interfaces";
+import { Patient, ParamTypes } from "../interfaces";
 import { getPatient, updatePatient } from "../api/Patients";
-
-interface ParamTypes {
-    patientId?: string;
-}
 
 const EditPatient = () => {
     const { patientId } = useParams<ParamTypes>();

@@ -97,3 +97,20 @@ export const newPatient = async (patient: Patient): Promise<any> => {
         throw new Error(body.error_description);
     }
 };
+
+export const deletePatient = async (patientId: number): Promise<any> => {
+    const token = localStorage.getItem("token");
+
+    const response = await fetch(`${BASE_URL}/api/1.0/Patient/${patientId}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
+    const body = await response.json();
+    if (!response.ok) {
+        throw new Error(body.error_description);
+    }
+};

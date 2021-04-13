@@ -52,3 +52,7 @@ export interface LocationState {
         pathname: string;
     };
 }
+
+export interface ParamTypes {
+    patientId?: string;
+}

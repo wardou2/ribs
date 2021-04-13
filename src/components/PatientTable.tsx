@@ -28,7 +28,11 @@ const PatientTable = ({ patients }: PatientTableProps) => {
                             <Link to={`${url}/edit/${patient.id}`}> Edit </Link>
                         </Table.Cell>
 
-                        <Table.Cell>Delete</Table.Cell>
+                        <Table.Cell>
+                            <Link to={`${url}/delete/${patient.id}`}>
+                                Delete
+                            </Link>
+                        </Table.Cell>
                     </>
                 )}
             </Table.Row>
