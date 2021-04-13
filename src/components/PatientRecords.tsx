@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Pagination } from "semantic-ui-react";
 
 import { Patient } from "../interfaces";
 import { getPatients } from "../api/Patients";
@@ -6,6 +7,15 @@ import PatientTable from "./PatientTable";
 
 const PatientRecords = () => {
     const [patients, setPatients] = useState<Patient[]>([]);
+    const [activePage, setActivePage] = useState(1);
+
+    const PATIENTS_PER_PAGE = 10;
+    const numberOfPages = Math.ceil(patients.length / PATIENTS_PER_PAGE);
+
+    const handlePageChange = (_e: any, data: any) => {
+        setActivePage(data.activePage);
+    };
+
     useEffect(() => {
         getPatients()
             .then((payload) => {
@@ -17,7 +27,17 @@ const PatientRecords = () => {
     return (
         <div>
             <h1>Patient Records</h1>
-            <PatientTable patients={patients} />
+            <PatientTable
+                patients={patients.slice(
+                    (activePage - 1) * PATIENTS_PER_PAGE,
+                    activePage * PATIENTS_PER_PAGE
+                )}
+            />
+            <Pagination
+                totalPages={numberOfPages}
+                activePage={activePage}
+                onPageChange={handlePageChange}
+            />
         </div>
     );
 };
