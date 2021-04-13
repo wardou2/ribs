@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Form, Loader } from "semantic-ui-react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 import { useParams } from "react-router-dom";
 
@@ -15,7 +17,16 @@ const EditPatient = () => {
     const [patient, setPatient] = useState<Patient>();
 
     useEffect(() => {
-        getPatient(Number(patientId)).then(setPatient);
+        const fetchPatient = async () => {
+            try {
+                const apiPatient = await getPatient(Number(patientId));
+                setPatient(apiPatient);
+            } catch (e) {
+                // TODO: Better error handling
+                alert(e);
+            }
+        };
+        fetchPatient();
     }, [patientId]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,7 +58,22 @@ const EditPatient = () => {
                     name="lastname"
                     onChange={handleChange}
                 />
-                <Form.Input label="Age" />
+
+                <DatePicker
+                    selected={patient.birthdate}
+                    showYearDropdown
+                    onChange={(date) => {
+                        if (date instanceof Date) {
+                            setPatient(
+                                (prev) =>
+                                    ({
+                                        ...prev,
+                                        birthdate: date,
+                                    } as Patient)
+                            );
+                        }
+                    }}
+                />
                 <Form.Input
                     label="Email"
                     value={patient.email_address}
@@ -62,4 +88,5 @@ const EditPatient = () => {
 
 export default EditPatient;
 
-//TODO: Age stuff needs to be sorted out
+// TODO: Age stuff needs to be sorted out
+// TODO: Success Message

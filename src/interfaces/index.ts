@@ -3,7 +3,7 @@ export interface Patient {
     firstname: string;
     lastname: string;
     sex_at_birth: string;
-    birthdate: number;
+    birthdate: Date;
     height: number;
     created_by_user_id: number;
     created_datetime: number;

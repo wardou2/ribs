@@ -22,7 +22,6 @@ const ViewPatient = () => {
             {patient && (
                 <>
                     <h1>{patient.firstname + " " + patient.lastname}</h1>
-                    <div>{patient.birthdate}</div>
                 </>
             )}
         </div>

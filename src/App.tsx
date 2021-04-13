@@ -32,7 +32,6 @@ function App() {
                         >
                             <ViewPatient />
                         </PrivateRoute>
-
                         <PrivateRoute
                             requiredAuthLevel={AuthLevel.Clinician}
                             path="/records"
