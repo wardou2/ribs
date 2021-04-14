@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+// Adapted from https://www.digitalocean.com/community/tutorials/how-to-add-login-authentication-to-react-applications
 const useToken = () => {
     const getToken = () => {
         const tokenString = localStorage.getItem("token");

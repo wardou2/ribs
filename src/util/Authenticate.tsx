@@ -5,7 +5,21 @@ import { getToken, getCurrentUser } from "../api/Auth";
 import { User, AuthLevel } from "../interfaces";
 import useToken from "./useToken";
 
-const authContext = createContext<any>({});
+// Adapted from https://usehooks.com/useAuth/
+
+type ContextProps = {
+    user: User | false | undefined;
+    authLevel: AuthLevel;
+    handleSignIn: (
+        email: string,
+        password: string,
+        remember: boolean,
+        cb: () => any
+    ) => Promise<void>;
+    handleSignOut: (cb: () => any) => void;
+};
+
+const authContext = createContext<Partial<ContextProps>>({});
 
 export function ProvideAuth({ children }: any) {
     let auth = useProvideAuth();
@@ -40,6 +54,7 @@ function useProvideAuth() {
         });
     };
 
+    //TODO: wire up remember, maybe use sessionStorage
     const handleSignIn = async (
         email: string,
         password: string,
@@ -111,7 +126,7 @@ export function PrivateRoute({
                             }}
                         />
                     );
-                if (requiredAuthLevel > authLevel)
+                if (authLevel && requiredAuthLevel > authLevel)
                     return (
                         <Redirect
                             to={{

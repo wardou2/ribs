@@ -21,7 +21,6 @@ const EditPatient = () => {
                 const apiPatient = await getPatient(Number(patientId));
                 setPatient(apiPatient);
             } catch (e) {
-                // TODO: Better error handling
                 alert(e);
             }
         };

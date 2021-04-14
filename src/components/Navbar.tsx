@@ -42,6 +42,7 @@ const Navbar = () => {
                                 compact
                                 size="mini"
                                 onClick={() =>
+                                    handleSignOut &&
                                     handleSignOut(() => {
                                         history.push("/login");
                                     })

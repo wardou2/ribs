@@ -5,6 +5,8 @@ import { Form, Checkbox, Button, Message } from "semantic-ui-react";
 import { useAuth } from "../util/Authenticate";
 import { LocationState } from "../interfaces";
 
+// Adapted from https://reactrouter.com/web/example/auth-workflow
+
 const Login = () => {
     const [remember, setRemember] = useState(false);
     const [email, setEmail] = useState("");
@@ -14,6 +16,7 @@ const Login = () => {
     let history = useHistory();
     let location = useLocation();
     const auth = useAuth();
+    const { user, handleSignIn } = auth;
 
     let { from } = (location.state as LocationState) || {
         from: { pathname: "/" },
@@ -25,7 +28,8 @@ const Login = () => {
         remember: boolean
     ) => {
         try {
-            await auth.handleSignIn(email, password, remember, () => {
+            if (!handleSignIn) return;
+            await handleSignIn(email, password, remember, () => {
                 history.replace(from);
             });
         } catch (e) {
@@ -37,7 +41,7 @@ const Login = () => {
         return email.length === 0 || password.length === 0;
     };
 
-    if (auth.user) return <Redirect to="/" />;
+    if (user) return <Redirect to="/" />;
 
     return (
         <div className="login">

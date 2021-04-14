@@ -1,8 +1,8 @@
-import { Patient } from "../interfaces";
+import { Patient, ApiPatient } from "../interfaces";
 
 import { BASE_URL } from "./constants";
 
-const patientApiToLocal = (patients: any[]) =>
+const patientApiToLocal = (patients: ApiPatient[]) =>
     patients.map((patient: any) => {
         patient.birthdate = new Date(patient.birthdate);
         return patient as Patient;
@@ -14,13 +14,11 @@ const patientLocalToApi = (patients: Patient[]) =>
         delete patient.created_by_user_id;
         delete patient.created_datetime;
         delete patient.number_of_sessions;
-        return patient;
+        return patient as ApiPatient;
     });
 
 export const getPatients = async (): Promise<Patient[]> => {
     const token = localStorage.getItem("token");
-    //TODO: Error handle
-    // if (!token) return;
 
     const response = await fetch(`${BASE_URL}/api/1.0/Patient`, {
         method: "GET",
@@ -40,8 +38,6 @@ export const getPatients = async (): Promise<Patient[]> => {
 
 export const getPatient = async (patientId: number): Promise<Patient> => {
     const token = localStorage.getItem("token");
-    //TODO: Error handle
-    // if (!token) return;
 
     const response = await fetch(`${BASE_URL}/api/1.0/Patient/${patientId}`, {
         method: "GET",
@@ -59,7 +55,7 @@ export const getPatient = async (patientId: number): Promise<Patient> => {
     }
 };
 
-export const updatePatient = async (patient: Patient): Promise<any> => {
+export const updatePatient = async (patient: Patient): Promise<void> => {
     const token = localStorage.getItem("token");
     const apiPatient = patientLocalToApi([patient])[0];
     const { id, ...rest } = apiPatient;
