@@ -116,7 +116,8 @@ export function PrivateRoute({
             {...rest}
             render={({ location }) => {
                 const { user, authLevel } = auth;
-                if (user === undefined) return <div>...loading</div>;
+                if (user === undefined || authLevel === undefined)
+                    return <div>...loading</div>;
                 if (!user)
                     return (
                         <Redirect
@@ -126,7 +127,7 @@ export function PrivateRoute({
                             }}
                         />
                     );
-                if (authLevel && requiredAuthLevel > authLevel)
+                if (requiredAuthLevel > authLevel)
                     return (
                         <Redirect
                             to={{

@@ -63,7 +63,7 @@ const DeletePatient = () => {
     }
 
     return (
-        <div>
+        <div className="center-content">
             {`Are you sure you want to delete ${patient?.firstname}
             ${patient?.lastname}?`}
             <div>

@@ -37,18 +37,21 @@ function App() {
                         </PrivateRoute>
                         <PrivateRoute
                             requiredAuthLevel={AuthLevel.Administrator}
+                            exact
                             path={`/records/new`}
                         >
                             <NewPatient />
                         </PrivateRoute>
                         <PrivateRoute
                             requiredAuthLevel={AuthLevel.Clinician}
+                            exact
                             path={`/records/view/:patientId`}
                         >
                             <ViewPatient />
                         </PrivateRoute>
                         <PrivateRoute
                             requiredAuthLevel={AuthLevel.Clinician}
+                            exact
                             path="/records/:viewPage"
                         >
                             <PatientRecords />
@@ -60,15 +63,18 @@ function App() {
                         >
                             <Landing />
                         </PrivateRoute>
-                        <Route path="*">
+                        <Route path="/login">
+                            <Login />
+                        </Route>
+                        <PrivateRoute
+                            requiredAuthLevel={AuthLevel.None}
+                            path="*"
+                        >
                             <div>
                                 Sorry, we couldn't access this page.{" "}
                                 <Link to="/">Back to Dashboard</Link>
                             </div>
-                        </Route>
-                        <Route path="/login">
-                            <Login />
-                        </Route>
+                        </PrivateRoute>
                     </Switch>
                 </BrowserRouter>
             </ProvideAuth>

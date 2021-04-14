@@ -25,6 +25,23 @@ const Navbar = () => {
     return (
         <>
             <div className="navbar">
+                <div className="navbar__nav">
+                    {user && (
+                        <div>
+                            <Button
+                                compact
+                                onClick={() =>
+                                    handleSignOut &&
+                                    handleSignOut(() => {
+                                        history.push("/login");
+                                    })
+                                }
+                            >
+                                Log Out
+                            </Button>
+                        </div>
+                    )}
+                </div>
                 <div className="navbar__title">
                     <div>KP MAISON</div>
                 </div>
@@ -36,20 +53,6 @@ const Navbar = () => {
 
                         <div>
                             {user?.firstname} {user?.lastname}
-                        </div>
-                        <div>
-                            <Button
-                                compact
-                                size="mini"
-                                onClick={() =>
-                                    handleSignOut &&
-                                    handleSignOut(() => {
-                                        history.push("/login");
-                                    })
-                                }
-                            >
-                                Log Out
-                            </Button>
                         </div>
                     </div>
                 )}

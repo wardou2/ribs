@@ -29,7 +29,7 @@ const ViewPatient = () => {
     if (!patient) return <div>Loading...</div>;
 
     return (
-        <div>
+        <div className="center-content">
             <Table celled striped collapsing>
                 <Table.Header>
                     <Table.Row>

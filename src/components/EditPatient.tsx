@@ -76,7 +76,7 @@ const EditPatient = () => {
     }
 
     return (
-        <div>
+        <div className="center-content">
             <h3>Edit Patient</h3>
             <Form onSubmit={handleSubmit}>
                 <Form.Input
