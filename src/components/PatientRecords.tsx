@@ -33,27 +33,31 @@ const PatientRecords = () => {
 
     return (
         <div>
-            <h1>Patient Records</h1>
+            <h3>Patient Information</h3>
             <PatientTable
                 patients={patients.slice(
                     (activePage - 1) * PATIENTS_PER_PAGE,
                     activePage * PATIENTS_PER_PAGE
                 )}
             />
-            <Pagination
-                totalPages={numberOfPages}
-                activePage={activePage}
-                onPageChange={handlePageChange}
-            />
-            {authLevel === AuthLevel.Administrator && (
-                <Button
-                    onClick={() => {
-                        history.push("/records/new");
-                    }}
-                >
-                    Add New Patient
-                </Button>
-            )}
+            <div className="records__bottomrow">
+                <Pagination
+                    totalPages={numberOfPages}
+                    activePage={activePage}
+                    onPageChange={handlePageChange}
+                />
+                {authLevel === AuthLevel.Administrator && (
+                    <div>
+                        <Button
+                            onClick={() => {
+                                history.push("/records/new");
+                            }}
+                        >
+                            Add New Patient
+                        </Button>
+                    </div>
+                )}
+            </div>
         </div>
     );
 };

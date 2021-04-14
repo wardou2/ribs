@@ -46,6 +46,7 @@ const Login = () => {
                 onSubmit={() => handleSubmit(email, password, remember)}
                 className="login__form"
                 error={error.length > 0}
+                widths="equal"
             >
                 <Form.Input
                     placeholder="Email"
@@ -65,9 +66,11 @@ const Login = () => {
                         onClick={() => setRemember(!remember)}
                     />
                 </Form.Field>
-                <Button type="submit" disabled={isInvalid()}>
-                    Sign in
-                </Button>
+                <div className="login__button">
+                    <Button type="submit" disabled={isInvalid()}>
+                        Sign in
+                    </Button>
+                </div>
                 <Message error content={error} />
             </Form>
         </div>

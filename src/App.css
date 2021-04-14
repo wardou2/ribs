@@ -24,7 +24,12 @@
 }
 
 .login__form {
-    width: 50%;
+    width: 300px;
+}
+
+.login__button {
+    margin-top: 20px;
+    text-align: center;
 }
 
 .navbar {
@@ -42,11 +47,7 @@
     align-content: center;
     text-align: center;
 
-    border: 1px solid black;
-    border-radius: 5px;
     font-size: 3em;
-    width: 50%;
-    height: 50px;
 }
 
 .navbar__user {
@@ -67,4 +68,13 @@
     border-radius: 50%;
     height: 50px;
     width: 50px;
+}
+
+.records__bottomrow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+
+    padding: 5px;
 }
