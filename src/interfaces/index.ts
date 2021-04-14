@@ -55,4 +55,5 @@ export interface LocationState {
 
 export interface ParamTypes {
     patientId?: string;
+    viewPage?: string;
 }

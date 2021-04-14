@@ -121,7 +121,7 @@ const NewPatient = () => {
         if (isValid) {
             try {
                 const id = await newPatient(patient);
-                history.push(`/records/${id}`);
+                history.push(`/records/view/${id}`);
             } catch (e) {
                 // TODO: Better error handle
                 alert(e);

@@ -43,13 +43,13 @@ function App() {
                         </PrivateRoute>
                         <PrivateRoute
                             requiredAuthLevel={AuthLevel.Clinician}
-                            path={`/records/:patientId`}
+                            path={`/records/view/:patientId`}
                         >
                             <ViewPatient />
                         </PrivateRoute>
                         <PrivateRoute
                             requiredAuthLevel={AuthLevel.Clinician}
-                            path="/records"
+                            path="/records/:viewPage"
                         >
                             <PatientRecords />
                         </PrivateRoute>

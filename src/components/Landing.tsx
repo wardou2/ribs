@@ -20,7 +20,7 @@ const Landing = () => {
                 ) : (
                     <ul>
                         <li>
-                            <Link to="/records">Patient Records</Link>
+                            <Link to="/records/1">Patient Records</Link>
                         </li>
                     </ul>
                 )}

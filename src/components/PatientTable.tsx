@@ -20,7 +20,7 @@ const PatientTable = ({ patients }: PatientTableProps) => {
                 <Table.Cell>{utcToAge(patient.birthdate)}</Table.Cell>
                 <Table.Cell>{patient.email_address}</Table.Cell>
                 <Table.Cell>
-                    <Link to={`${url}/${patient.id}`}> View </Link>
+                    <Link to={`${url}/view/${patient.id}`}> View </Link>
                 </Table.Cell>
                 {authLevel === AuthLevel.Administrator && (
                     <>
