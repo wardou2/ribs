@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Form, Loader } from "semantic-ui-react";
+import { Button, Form, Loader, Message } from "semantic-ui-react";
 import { useHistory } from "react-router-dom";
 import validator from "validator";
 import DatePicker from "react-datepicker";
@@ -35,6 +35,7 @@ const NewPatient = () => {
         });
         return err;
     });
+    const [apiError, setApiError] = useState(false);
 
     const history = useHistory();
 
@@ -123,8 +124,7 @@ const NewPatient = () => {
                 const id = await newPatient(patient);
                 history.push(`/records/view/${id}`);
             } catch (e) {
-                // TODO: Better error handle
-                alert(e);
+                setApiError(true);
             }
         }
     };
@@ -132,7 +132,7 @@ const NewPatient = () => {
     return (
         <div>
             <h3>Add New Patient</h3>
-            <Form onSubmit={handleSubmit}>
+            <Form onSubmit={handleSubmit} error={apiError}>
                 <Form.Group>
                     <Form.Input
                         label="First Name"
@@ -244,6 +244,11 @@ const NewPatient = () => {
                 <Button type="submit" disabled={!isValid}>
                     New Patient
                 </Button>
+                <Message
+                    error
+                    header="Something went wrong"
+                    content="Please try again later."
+                />
             </Form>
         </div>
     );
