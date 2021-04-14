@@ -1,38 +1,97 @@
-.App {
-  text-align: center;
+.app-container {
+    margin: 15px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.login__logo {
+    height: 100px;
+    width: 100px;
+    border: 1px solid black;
+    border-radius: 50%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+
+    font-size: 3em;
+    margin: 1em;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.login__form {
+    width: 300px;
 }
 
-.App-link {
-  color: #61dafb;
+.login__button {
+    margin-top: 20px;
+    text-align: center;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.navbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    width: 100%;
+    text-align: center;
+
+    margin-top: 15px;
+}
+
+.navbar__title {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    font-size: 2.5em;
+    width: 80%;
+}
+
+.navbar__user {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    text-align: center;
+    width: 10%;
+}
+
+.navbar__user__level {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    font-size: 2em;
+    border: 1px solid black;
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+}
+
+.navbar__nav {
+    width: 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.records__bottomrow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+
+    padding: 5px;
+}
+
+.center-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
