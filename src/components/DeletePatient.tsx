@@ -38,6 +38,8 @@ const DeletePatient = () => {
             });
     };
 
+    if (!patient) return <div>Loading...</div>;
+
     if (apiState === "sending")
         return (
             <Dimmer active>
@@ -65,13 +67,15 @@ const DeletePatient = () => {
             {`Are you sure you want to delete ${patient?.firstname}
             ${patient?.lastname}?`}
             <div>
-                <Button onClick={() => history.goBack()}>
-                    No, I didn't mean it, I'm so sorry!
-                </Button>
-
-                <Button negative onClick={handleDelete}>
-                    Yes, I hate them
-                </Button>
+                <Button.Group>
+                    <Button onClick={() => history.goBack()}>
+                        No, I didn't mean it!
+                    </Button>
+                    <Button.Or></Button.Or>
+                    <Button negative onClick={handleDelete}>
+                        Yes, I hate them
+                    </Button>
+                </Button.Group>
             </div>
         </div>
     );

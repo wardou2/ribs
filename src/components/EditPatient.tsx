@@ -118,7 +118,7 @@ const EditPatient = () => {
                         Cancel
                     </Button>
                     <Button.Or></Button.Or>
-                    <Button type="submit" positive>
+                    <Button type="submit" primary>
                         Edit Patient
                     </Button>
                 </Button.Group>

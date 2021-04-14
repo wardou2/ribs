@@ -242,9 +242,15 @@ const NewPatient = () => {
                         error={"zipcode" in errors}
                     />
                 </Form.Group>
-                <Button type="submit" disabled={!isValid}>
-                    New Patient
-                </Button>
+                <Button.Group>
+                    <Button type="button" onClick={() => history.goBack()}>
+                        Cancel
+                    </Button>
+                    <Button.Or></Button.Or>
+                    <Button primary type="submit" disabled={!isValid}>
+                        New Patient
+                    </Button>
+                </Button.Group>
                 <Message
                     error
                     header="Something went wrong"
