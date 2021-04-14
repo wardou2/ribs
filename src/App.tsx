@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
 
 import Login from "./components/Login";
 import PatientRecords from "./components/PatientRecords";
@@ -60,6 +60,12 @@ function App() {
                         >
                             <Landing />
                         </PrivateRoute>
+                        <Route path="*">
+                            <div>
+                                Sorry, we couldn't access this page.{" "}
+                                <Link to="/">Back to Dashboard</Link>
+                            </div>
+                        </Route>
                         <Route path="/login">
                             <Login />
                         </Route>
