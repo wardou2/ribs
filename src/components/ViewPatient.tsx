@@ -23,7 +23,8 @@ const ViewPatient = () => {
         retrievePatient();
     }, [patientId]);
 
-    if (error || !patient) return <div>Something went wrong.</div>;
+    if (error) return <div>Something went wrong.</div>;
+    if (!patient) return <div>Loading...</div>;
 
     return (
         <Table celled striped collapsing>

@@ -1,5 +1,5 @@
 import React from "react";
-import { useRouteMatch, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Table } from "semantic-ui-react";
 
 import { Patient, AuthLevel } from "../interfaces";
@@ -20,16 +20,19 @@ const PatientTable = ({ patients }: PatientTableProps) => {
                 <Table.Cell>{utcToAge(patient.birthdate)}</Table.Cell>
                 <Table.Cell>{patient.email_address}</Table.Cell>
                 <Table.Cell>
-                    <Link to={`${url}/view/${patient.id}`}> View </Link>
+                    <Link to={`/records/view/${patient.id}`}> View </Link>
                 </Table.Cell>
                 {authLevel === AuthLevel.Administrator && (
                     <>
                         <Table.Cell>
-                            <Link to={`${url}/edit/${patient.id}`}> Edit </Link>
+                            <Link to={`/records/edit/${patient.id}`}>
+                                {" "}
+                                Edit{" "}
+                            </Link>
                         </Table.Cell>
 
                         <Table.Cell>
-                            <Link to={`${url}/delete/${patient.id}`}>
+                            <Link to={`/records/delete/${patient.id}`}>
                                 Delete
                             </Link>
                         </Table.Cell>
@@ -38,8 +41,6 @@ const PatientTable = ({ patients }: PatientTableProps) => {
             </Table.Row>
         ));
     };
-
-    let { url } = useRouteMatch();
 
     return (
         <div>

@@ -21,7 +21,7 @@ const DeletePatient = () => {
                 const res = await getPatient(Number(patientId));
                 setPatient(res);
             } catch (e) {
-                history.push("/records");
+                history.push("/records/1");
             }
         };
         retrievePatient();
@@ -50,7 +50,7 @@ const DeletePatient = () => {
             <div>
                 {`${patient?.firstname} ${patient?.lastname} has been deleted!`}
                 <div>
-                    <Link to="/records">Back to Records</Link>
+                    <Link to="/records/1">Back to Records</Link>
                 </div>
             </div>
         );
@@ -65,7 +65,7 @@ const DeletePatient = () => {
             {`Are you sure you want to delete ${patient?.firstname}
             ${patient?.lastname}?`}
             <div>
-                <Button onClick={() => history.push("/records")}>
+                <Button onClick={() => history.goBack()}>
                     No, I didn't mean it, I'm so sorry!
                 </Button>
 

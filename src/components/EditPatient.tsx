@@ -3,7 +3,7 @@ import { Button, Form, Loader, Dimmer } from "semantic-ui-react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useHistory } from "react-router-dom";
 
 import { Patient, ParamTypes } from "../interfaces";
 import { getPatient, updatePatient } from "../api/Patients";
@@ -14,6 +14,7 @@ const EditPatient = () => {
     const [apiState, setApiState] = useState<
         "sending" | "finished" | "error" | undefined
     >();
+    const history = useHistory();
 
     useEffect(() => {
         const fetchPatient = async () => {
@@ -112,7 +113,15 @@ const EditPatient = () => {
                     name="email_address"
                     onChange={handleChange}
                 />
-                <Button type="submit">Edit Patient</Button>
+                <Button.Group>
+                    <Button type="button" onClick={() => history.goBack()}>
+                        Cancel
+                    </Button>
+                    <Button.Or></Button.Or>
+                    <Button type="submit" positive>
+                        Edit Patient
+                    </Button>
+                </Button.Group>
             </Form>
         </div>
     );

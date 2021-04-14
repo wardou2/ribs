@@ -5,7 +5,7 @@ import { AuthLevel, Patient, ParamTypes } from "../interfaces";
 import { getPatients } from "../api/Patients";
 import PatientTable from "./PatientTable";
 import { useAuth } from "../util/Authenticate";
-import { useHistory, useParams } from "react-router-dom";
+import { Redirect, useHistory, useParams } from "react-router-dom";
 
 const PatientRecords = () => {
     const [patients, setPatients] = useState<Patient[]>([]);
@@ -42,16 +42,21 @@ const PatientRecords = () => {
     }, []);
 
     if (error) return <div>Something went wrong.</div>;
+    if (viewPage > numberOfPages) return <Redirect to="/records/1" />;
 
     return (
         <div>
             <h3>Patient Information</h3>
-            <PatientTable
-                patients={patients.slice(
-                    (viewPage - 1) * PATIENTS_PER_PAGE,
-                    viewPage * PATIENTS_PER_PAGE
-                )}
-            />
+            {patients.length > 0 ? (
+                <PatientTable
+                    patients={patients.slice(
+                        (viewPage - 1) * PATIENTS_PER_PAGE,
+                        viewPage * PATIENTS_PER_PAGE
+                    )}
+                />
+            ) : (
+                <div>No patient records found</div>
+            )}
             <div className="records__bottomrow">
                 <Pagination
                     totalPages={numberOfPages}
