@@ -65,7 +65,7 @@ const EditPatient = () => {
             <div>
                 {`${patient.firstname} ${patient.lastname} has been udpated!`}
                 <div>
-                    <Link to="/records">Back to Records</Link>
+                    <Link to="/records/1">Back to Records</Link>
                 </div>
             </div>
         );

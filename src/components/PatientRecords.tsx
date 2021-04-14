@@ -5,7 +5,7 @@ import { AuthLevel, Patient, ParamTypes } from "../interfaces";
 import { getPatients } from "../api/Patients";
 import PatientTable from "./PatientTable";
 import { useAuth } from "../util/Authenticate";
-import { Redirect, useHistory, useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
 const PatientRecords = () => {
     const [patients, setPatients] = useState<Patient[]>([]);
@@ -42,7 +42,6 @@ const PatientRecords = () => {
     }, []);
 
     if (error) return <div>Something went wrong.</div>;
-    if (viewPage > numberOfPages) return <Redirect to="/records/1" />;
 
     return (
         <div>
