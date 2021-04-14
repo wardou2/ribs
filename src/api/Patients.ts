@@ -2,19 +2,21 @@ import { Patient, ApiPatient } from "../interfaces";
 
 import { BASE_URL } from "./constants";
 
-const patientApiToLocal = (patients: ApiPatient[]) =>
-    patients.map((patient: any) => {
+const patientApiToLocal = (apiPatients: ApiPatient[]) =>
+    apiPatients.map((apiPatient: any) => {
+        const patient = apiPatient as Patient;
         patient.birthdate = new Date(patient.birthdate);
         return patient as Patient;
     });
 
 const patientLocalToApi = (patients: Patient[]) =>
     patients.map((patient: any) => {
-        patient.birthdate = patient.birthdate.getTime();
-        delete patient.created_by_user_id;
-        delete patient.created_datetime;
-        delete patient.number_of_sessions;
-        return patient as ApiPatient;
+        const apiPatient = patient as ApiPatient;
+        apiPatient.birthdate = patient.birthdate.getTime();
+        delete apiPatient.created_by_user_id;
+        delete apiPatient.created_datetime;
+        delete apiPatient.number_of_sessions;
+        return apiPatient as ApiPatient;
     });
 
 export const getPatients = async (): Promise<Patient[]> => {

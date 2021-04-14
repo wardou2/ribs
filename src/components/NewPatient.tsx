@@ -24,6 +24,7 @@ const NewPatient = () => {
         number_of_sessions: 0,
     } as Patient);
 
+    // TODO: create type for errors
     const [errors, setErrors] = useState(() => {
         const err: any = {};
         const keys = Object.keys(patient) as Array<keyof typeof patient>;
